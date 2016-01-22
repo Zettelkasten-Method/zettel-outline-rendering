@@ -1,7 +1,13 @@
+PATH
+  remote: .
+  specs:
+    zettel-outline (0.1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
     diff-lcs (1.2.5)
+    rake (10.5.0)
     rspec (3.4.0)
       rspec-core (~> 3.4.0)
       rspec-expectations (~> 3.4.0)
@@ -20,7 +26,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  rspec
+  bundler (~> 1.11)
+  rake (~> 10.0)
+  rspec (~> 3.0)
+  zettel-outline!
 
 BUNDLED WITH
    1.11.2

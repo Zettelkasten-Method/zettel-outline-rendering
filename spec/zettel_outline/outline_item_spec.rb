@@ -1,12 +1,12 @@
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
-require File.expand_path(File.dirname(__FILE__) + '/../../compile')
+require 'spec_helper'
+require 'zettel_outline/outline_item'
 
 
-describe OutlineItem do
+describe ZettelOutline::OutlineItem do
   describe 'rendering' do
     let(:id) { "123" }
     let(:info) { double(:id => id) }
-    subject(:item) { OutlineItem.new(info) }
+    subject(:item) { ZettelOutline::OutlineItem.new(info) }
     
     let(:rendition) { "the result" }
     let(:renderer) { double(:render => rendition) }
@@ -14,9 +14,6 @@ describe OutlineItem do
     let(:zettel) { double() }
     let(:archive) { double(:zettel => zettel) }
     
-    before(:each) do
-      #renderer.should_receive(:render)
-    end
     
     it 'requests zettel from archive' do
       item.render(renderer, archive)

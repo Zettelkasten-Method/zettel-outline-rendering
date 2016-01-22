@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "zettel_outline"
+
+PATH = File.expand_path("~/Archiv/")
+
+testoutline = <<EOF
+* 201509250830 Wie man mit Ausnahmen bei guten Habits umgeht. the comment
+* 201510101029 Bilderquellen im Internet. another comment
+    * 201509281235 Serial Queues 
+* 201509011226 Freie Funktionen über
+EOF
+
+zettel = ZettelOutline::compile(testoutline, PATH)
+puts ZettelOutline::render(zettel)
+

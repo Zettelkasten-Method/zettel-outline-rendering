@@ -1,8 +1,8 @@
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
-require File.expand_path(File.dirname(__FILE__) + '/../../compile')
+require 'spec_helper'
+require 'zettel_outline/zettel_renderer'
 
-describe ZettelRenderer do
-  subject(:renderer) { ZettelRenderer.new }
+describe ZettelOutline::ZettelRenderer do
+  subject(:renderer) { ZettelOutline::ZettelRenderer.new }
   
   describe 'rendering' do
     let(:contents) { double(:render => "content") }
