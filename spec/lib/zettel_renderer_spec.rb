@@ -5,15 +5,10 @@ describe ZettelRenderer do
   subject(:renderer) { ZettelRenderer.new }
   
   describe 'rendering' do
-    let(:contents) { double(:render => "content" }
-    let(:separator) { double(:render => "separator" }
+    let(:contents) { double(:render => "content") }
+    let(:separator) { double(:render => "separator") }
     let!(:result) { renderer.render(contents, separator) }
-    
-    before(:each) do
-      contents.should_receive(:render)
-      separator.should_receive(:render)
-    end
-    
+        
     it 'renders contents' do
       expect(contents).to have_received(:render)
     end

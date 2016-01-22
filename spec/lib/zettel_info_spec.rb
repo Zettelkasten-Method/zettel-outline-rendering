@@ -44,23 +44,4 @@ describe ZettelInfo do
     end
   end
   
-  describe 'rendering' do
-    subject(:info) { ZettelInfo.new("123 title. comment") }
-    let(:rendition) { "the result" }
-    let(:renderer) { double(:render => rendition) }
-    
-    before(:each) do
-      renderer.should_receive(:render)
-    end
-    
-    it 'renders' do
-      info.render(renderer, folder)
-      
-      expect(renderer).to have_received(:render).with()
-    end
-    
-    it 'returns renderer result' do
-      expect(info.render(renderer, folder)).to eq rendition
-    end
-  end
 end

@@ -1,7 +1,7 @@
 class Zettel
-  def initialize(file)
-    raise "file needed" if file.nil?
-    @path = file
+  def initialize(path)
+    raise "file path needed" if path.nil?
+    @path = path
   end
   
   def render

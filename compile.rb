@@ -1,13 +1,18 @@
 require File.expand_path(File.dirname(__FILE__) + '/lib/outline')
+require File.expand_path(File.dirname(__FILE__) + '/lib/outline_item')
+require File.expand_path(File.dirname(__FILE__) + '/lib/archive')
 require File.expand_path(File.dirname(__FILE__) + '/lib/zettel_info')
 require File.expand_path(File.dirname(__FILE__) + '/lib/zettel_renderer')
+require File.expand_path(File.dirname(__FILE__) + '/lib/zettel')
 
 def compile(content, folder)
   outline = Outline.new(content: content)
-  all_zettel = outline.map { |l| ZettelInfo.new(l) }
+  all_items = outline.map { |l| ZettelInfo.new(l) }
+    .map { |info| OutlineItem.new(info) }
   renderer = ZettelRenderer.new()
+  archive = Archive.new(folder)
   
-  all_zettel.map { |z| z.render(renderer, folder) }
+  all_items.map { |z| z.render(renderer, archive) }
 end
 
 PATH = File.expand_path("~/Archiv/")
@@ -19,12 +24,8 @@ testoutline = <<EOF
 * 201509011226 Freie Funktionen über
 EOF
 
-# <!-- §123 test
-# the comment -->
-# ...
-
-zettel = compile(testoutline, PATH)
-zettel.each do |zettel|
-  puts zettel
-end
+#zettel = compile(testoutline, PATH)
+#zettel.each do |zettel|
+#  puts zettel
+#end
 
