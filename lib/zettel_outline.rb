@@ -11,7 +11,7 @@ module ZettelOutline
   class << self
     
     def compile(outline_content, folder)
-      outline = Outline.new(content: outline_content)
+      outline = Outline.new(outline_content)
       all_items = outline.map_files { |f| ZettelInfo.new(f) }
         .map { |info| OutlineItem.new(info) }
       renderer = ZettelRenderer.new()

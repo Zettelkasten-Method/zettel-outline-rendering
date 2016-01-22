@@ -1,10 +1,3 @@
-# outline = <<EOF
-# * 123 test. the comment
-# * 234 foo x boo. moo. shmoo
-#     * 567 bar
-# * 890 baz
-# EOF
-
 require 'spec_helper'
 require 'zettel_outline/zettel_info'
 

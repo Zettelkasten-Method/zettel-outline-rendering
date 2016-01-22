@@ -1,7 +1,6 @@
 require 'spec_helper'
 require 'zettel_outline/outline_item'
 
-
 describe ZettelOutline::OutlineItem do
   describe 'rendering' do
     let(:id) { "123" }
