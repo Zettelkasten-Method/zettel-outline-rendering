@@ -19,4 +19,10 @@ module ZettelOutline
       text
     end
   end
+  
+  class NullZettel
+    def render
+      ""
+    end
+  end
 end

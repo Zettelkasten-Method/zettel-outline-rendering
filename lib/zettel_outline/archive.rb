@@ -14,8 +14,17 @@ module ZettelOutline
     end
   
     def zettel(id, finder = Finder.new)
-      path = finder.file_path(@folder, id)
+      create_zettel(path(id, finder))
+    end
+    
+    def create_zettel(path)
+      return NullZettel.new if path.nil?
+      
       Zettel.new(path)
     end  
+
+    def path(id, finder = Finder.new)
+      finder.file_path(@folder, id)
+    end
   end
 end

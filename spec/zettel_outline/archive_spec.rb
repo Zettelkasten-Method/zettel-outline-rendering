@@ -1,27 +1,51 @@
 require 'spec_helper'
 require 'zettel_outline/archive'
 
+class TestableArchive < ZettelOutline::Archive
+  attr_reader :did_create_zettel_with
+  
+  def create_zettel(path)
+    @did_create_zettel_with = path
+  end
+end
+
 describe ZettelOutline::Archive do
   let(:folder) { "some/folder/path" }
-  subject(:archive) { ZettelOutline::Archive.new(folder) }
   
   describe 'fetching a Zettel' do
     let(:id) { "the ID" }
     
     context 'when a file was found' do
+      subject(:archive) { TestableArchive.new(folder) }
+      
       let(:path) { "the/resulting/path" }
       let(:finder) { double(:file_path => path) }
       
-      it 'does not throw' do
-        expect { archive.zettel(id, finder) }.not_to raise_exception
+      before(:each) do
+        archive.zettel(id, finder)
+      end
+      
+      it 'fetches path from finder' do
+        expect(finder).to have_received(:file_path).with(folder, id)
+      end
+      
+      it 'creates zettel from resulting path' do
+        expect(archive.did_create_zettel_with).to eq path
       end
     end
     
     context 'when no file was found' do
-      let(:finder) { double(:file_path => nil) }
+      subject(:archive) { described_class.new(folder) }
       
-      it 'throws' do
-        expect { archive.zettel(id, finder) }.to raise_exception("file path needed")
+      let(:finder) { double(:file_path => nil) }
+      let!(:result) { archive.zettel(id, finder) }
+      
+      it 'fetches path from finder' do
+        expect(finder).to have_received(:file_path).with(folder, id)
+      end
+      
+      it 'returns NullZettel' do
+        expect(result.class).to equal ZettelOutline::NullZettel
       end
     end
   end
