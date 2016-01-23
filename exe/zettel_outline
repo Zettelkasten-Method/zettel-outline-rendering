@@ -13,19 +13,26 @@ opts = Slop.parse do |o|
   
   o.separator ""
   o.separator "Also available:"
-  o.bool '-v', '--verbose', 'verbose output'
+  o.bool '-v', '--verbose', 'verbose output', default: false
   o.on "--version" do
     puts "zettel_outline #{ZettelOutline::VERSION} (#{ZettelOutline::Date}"
+    exit
   end
+end
+
+def missing_args(msg, opts)
+  puts opts
+  puts ""
+  abort(msg)
 end
 
 class Command
   attr_accessor :file, :archive, :output, :verbose
   
   def initialize(opts)
-    abort("--file required") if opts[:file].nil?
-    abort("--archive required") if opts[:archive].nil?
-    abort("--output required") if opts[:output].nil?
+    missing_args("--file required", opts) if opts[:file].nil?
+    missing_args("--archive required", opts) if opts[:archive].nil?
+    missing_args("--output required", opts) if opts[:output].nil?
     
     opts.to_hash.each do |k, v| send("#{k}=", v) end
   end
@@ -40,17 +47,21 @@ class Command
     check_permissions!
     
     in_path = File.expand_path(@file)
-    puts "Reading in outline from #{in_path} ...".green
+    log("Reading in outline from #{in_path} ...")
     content = File.read(@file)
     
-    puts "Compiling draft from Zettel ...".green
+    log("Compiling draft from Zettel ...")
     result = ZettelOutline::compile(content, @archive)
     
     out_path = File.expand_path(@output)
-    puts "Writing to #{out_path} ...".green
+    log("Writing to #{out_path} ...")
     File.open(out_path, "w") do |f|
       f.write(ZettelOutline::render(result))
     end
+  end
+  
+  def log(msg)
+     puts msg.green if @verbose
   end
 end
 
