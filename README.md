@@ -1,38 +1,71 @@
 # ZettelOutline Rendering
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/zettel/outline/rendering`. To experiment with that code, run `bin/console` for an interactive prompt.
+Assemble a first draft from your [Zettelkasten](http://zettelkasten.de) notes and an outline file. **Markdown** aware, allowing you to write arbitrarily nested lists as outlines.
 
-TODO: Delete this and the text above, and describe your gem
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Install the ruby gem yourself from the command line:
 
-```ruby
-gem 'zettel-outline-rendering'
-```
+    $ gem install zettel_outline
 
-And then execute:
+## Usage of the program
 
-    $ bundle
+From the command line, run `zettel_outline` with the required parameters:
 
-Or install it yourself as:
+        -f, --file                   an outline file
+        -a, --archive                path to your Zettel notes
+        -o, --output                 file to write results to
 
-    $ gem install zettel-outline-rendering
+For example:
+    
+    $ zettel_outline -f outline.txt -a /path/to/notes/ -o draft.txt
 
-## Usage
+This will read the `outline.txt` from the current directory. It will resolve every Zettel reference using the Zettel note archive (`/path/to/notes/`) and concatenate the notes's contents into `draft.txt`.
 
-TODO: Write usage instructions here
+A sample outline can look like this:
 
-## Development
+    * 201407030825 Why baking is so important for life. I really love baking
+    * 201601231448 Banana cake. The very best cake ever
+        * 201601222058 Nutritional value of bananas
+        * 201601222035 Nutritional value of eggs
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+The nested list of Zettel references will be split into:
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+1. The Zettel ID, used to find the note in your archive; e.g. "201407030825"
+2. The note title, used for the draft's output; e.g. "Why baking is so important for life"
+3. The comment, which is everything after the first period in the line; e.g. "I really love baking"
+
+Zettel note contents will be separated using Markdown-enabled HTML comments, which are surrounded with `<!--` and `-->`. So the resulting `draft.txt` will look similar to this:
+
+    <!-- §201407030825 Why baking is so important for life -->
+    <!-- I really love baking -->
+    
+    Baking is one of the oldest and definitely one of the 
+    most delicious ways to prepare food. 
+    
+    ...
+
+
+## Usage of the library
+
+The higher-level interface of the gem is very simple. Wrapping every parameter into a `compile` function can look like this:
+
+    def compile(outline_path, notes_path, draft_path)
+      content = File.read(outline_path)
+      result = ZettelOutline::compile(content, notes_path)
+      File.open(draft_path, "w") do |f|
+        f.write(ZettelOutline::render(result))
+      end
+    end
+
+* `ZettelOutline::compile` takes the outline as a string and the path to resolve note references.
+* `ZettelOutline::render` is just a wrapper to concatenate the result and return a simple string.
+
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/zettel-outline-rendering. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at <https://github.com/DivineDominion/zettel-outline-rendering>. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 
 ## License
