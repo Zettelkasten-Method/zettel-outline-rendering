@@ -1,0 +1,57 @@
+#!/usr/bin/env ruby
+
+require "zettel_outline"
+require "slop"
+require "colorize"
+
+opts = Slop.parse do |o|
+  o.separator ""
+  o.separator "Required options:"
+  o.string '-f', '--file', 'an outline file'
+  o.string '-a', '--archive', 'path to your Zettel notes'
+  o.string '-o', '--output', 'file to write results to'
+  
+  o.separator ""
+  o.separator "Also available:"
+  o.bool '-v', '--verbose', 'verbose output'
+  o.on "--version" do
+    puts "zettel_outline #{ZettelOutline::VERSION} (#{ZettelOutline::Date}"
+  end
+end
+
+class Command
+  attr_accessor :file, :archive, :output, :verbose
+  
+  def initialize(opts)
+    abort("--file required") if opts[:file].nil?
+    abort("--archive required") if opts[:archive].nil?
+    abort("--output required") if opts[:output].nil?
+    
+    opts.to_hash.each do |k, v| send("#{k}=", v) end
+  end
+
+  def check_permissions!
+    abort("Could not open file '#{@file}'.".red) unless File.readable?(@file)  
+    #abort("Could not write to file '#{@output}'.") unless File.writable?(@output)
+    abort("Zettel archive does not exist at '#{@archive}'.".red) unless File.directory?(@archive)
+  end
+  
+  def execute
+    check_permissions!
+    
+    in_path = File.expand_path(@file)
+    puts "Reading in outline from #{in_path} ...".green
+    content = File.read(@file)
+    
+    puts "Compiling draft from Zettel ...".green
+    result = ZettelOutline::compile(content, @archive)
+    
+    out_path = File.expand_path(@output)
+    puts "Writing to #{out_path} ...".green
+    File.open(out_path, "w") do |f|
+      f.write(ZettelOutline::render(result))
+    end
+  end
+end
+
+Command.new(opts).execute
