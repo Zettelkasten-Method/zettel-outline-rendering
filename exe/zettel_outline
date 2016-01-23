@@ -4,7 +4,9 @@ require "zettel_outline"
 require "slop"
 require "colorize"
 
-opts = Slop.parse do |o|
+opts = Slop.parse(ARGV, suppress_errors: true) do |o|
+  o.banner = "usage: #$PROGRAM_NAME -f <OUTLINE FILE> -a <ARCHIVE PATH> -o <DRAFT FILE>"
+  
   o.separator ""
   o.separator "Required options:"
   o.string '-f', '--file', 'an outline file'
@@ -13,33 +15,33 @@ opts = Slop.parse do |o|
   
   o.separator ""
   o.separator "Also available:"
-  o.bool '-v', '--verbose', 'verbose output', default: false
-  o.on "--version" do
-    puts "zettel_outline #{ZettelOutline::VERSION} (#{ZettelOutline::Date}"
+  o.null '-h', '--help', 'prints this help'
+  o.bool '-v', '--verbose', 'verbose output', default: false, :argument => :optional
+  o.on "--version", :argument => :optional do
+    puts "zettel_outline #{ZettelOutline::VERSION} (#{ZettelOutline::DATE})"
     exit
   end
 end
 
-def missing_args(msg, opts)
-  puts opts
-  puts ""
-  abort(msg)
+if ARGV.include?('-h') || ARGV.include?('--help') 
+  puts opts 
+  exit
 end
 
 class Command
   attr_accessor :file, :archive, :output, :verbose
   
   def initialize(opts)
-    missing_args("--file required", opts) if opts[:file].nil?
-    missing_args("--archive required", opts) if opts[:archive].nil?
-    missing_args("--output required", opts) if opts[:output].nil?
+    abort("--file required") if opts[:file].nil?
+    abort("--archive required") if opts[:archive].nil?
+    abort("--output required") if opts[:output].nil?
     
     opts.to_hash.each do |k, v| send("#{k}=", v) end
   end
 
   def check_permissions!
     abort("Could not open file '#{@file}'.".red) unless File.readable?(@file)  
-    #abort("Could not write to file '#{@output}'.") unless File.writable?(@output)
+    abort("Could not write to file '#{@output}'.") if File.directory?(@output)
     abort("Zettel archive does not exist at '#{@archive}'.".red) unless File.directory?(@archive)
   end
   

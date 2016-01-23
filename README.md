@@ -11,11 +11,20 @@ Install the ruby gem yourself from the command line:
 
 ## Usage of the program
 
-From the command line, run `zettel_outline` with the required parameters:
+From the command line, run `zettel_outline` with the required parameters as the help indicates:
 
-        -f, --file                   an outline file
-        -a, --archive                path to your Zettel notes
-        -o, --output                 file to write results to
+    $ zettel_outline
+    usage: zettel_outline -f <OUTLINE FILE> -a <ARCHIVE PATH> -o <DRAFT FILE>
+
+    Required options:
+        -f, --file     an outline file
+        -a, --archive  path to your Zettel notes
+        -o, --output   file to write results to
+
+    Also available:
+        -h, --help     prints this help
+        -v, --verbose  verbose output
+        --version 
 
 For example:
     
@@ -51,13 +60,15 @@ Zettel note contents will be separated using Markdown-enabled HTML comments, whi
 
 The higher-level interface of the gem is very simple. Wrapping every parameter into a `compile` function can look like this:
 
-    def compile(outline_path, notes_path, draft_path)
-      content = File.read(outline_path)
-      result = ZettelOutline::compile(content, notes_path)
-      File.open(draft_path, "w") do |f|
-        f.write(ZettelOutline::render(result))
-      end
-    end
+```ruby
+def compile(outline_path, notes_path, draft_path)
+  content = File.read(outline_path)
+  result = ZettelOutline::compile(content, notes_path)
+  File.open(draft_path, "w") do |f|
+    f.write(ZettelOutline::render(result))
+  end
+end
+```
 
 * `ZettelOutline::compile` takes the outline as a string and the path to resolve note references.
 * `ZettelOutline::render` is just a wrapper to concatenate the result and return a simple string.
