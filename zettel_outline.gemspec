@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'zettel_outline/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "zettel-outline"
+  spec.name          = "zettel_outline"
   spec.version       = ZettelOutline::VERSION
   spec.authors       = ["Christian Tietze"]
   spec.email         = ["christian.tietze@gmail.com"]
