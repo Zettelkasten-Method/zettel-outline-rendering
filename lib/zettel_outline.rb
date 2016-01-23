@@ -21,7 +21,7 @@ module ZettelOutline
     end
     
     def render(outline)
-      outline.reduce("", :<<)
+      outline.join("")
     end
   end
 end
