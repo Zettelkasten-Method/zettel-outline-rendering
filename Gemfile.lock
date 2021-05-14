@@ -2,38 +2,38 @@ PATH
   remote: .
   specs:
     zettel_outline (0.1.1)
-      colorize (~> 0.7)
-      slop (~> 4.2)
+      colorize (~> 0.8)
+      slop (~> 4.9)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    colorize (0.7.7)
-    diff-lcs (1.2.5)
-    rake (10.5.0)
-    rspec (3.4.0)
-      rspec-core (~> 3.4.0)
-      rspec-expectations (~> 3.4.0)
-      rspec-mocks (~> 3.4.0)
-    rspec-core (3.4.1)
-      rspec-support (~> 3.4.0)
-    rspec-expectations (3.4.0)
+    colorize (0.8.1)
+    diff-lcs (1.4.4)
+    rake (13.0.3)
+    rspec (3.10.0)
+      rspec-core (~> 3.10.0)
+      rspec-expectations (~> 3.10.0)
+      rspec-mocks (~> 3.10.0)
+    rspec-core (3.10.1)
+      rspec-support (~> 3.10.0)
+    rspec-expectations (3.10.1)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.4.0)
-    rspec-mocks (3.4.1)
+      rspec-support (~> 3.10.0)
+    rspec-mocks (3.10.2)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.4.0)
-    rspec-support (3.4.1)
-    slop (4.2.1)
+      rspec-support (~> 3.10.0)
+    rspec-support (3.10.2)
+    slop (4.9.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  bundler (~> 1.11)
-  rake (~> 10.0)
-  rspec (~> 3.0)
+  bundler (~> 2.1)
+  rake (~> 13.0)
+  rspec (~> 3.10)
   zettel_outline!
 
 BUNDLED WITH
-   1.11.2
+   2.1.4
