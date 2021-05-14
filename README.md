@@ -1,6 +1,6 @@
 # ZettelOutline Rendering
 
-Assemble a first draft from your [Zettelkasten](http://zettelkasten.de) notes and an outline file. **Markdown** aware, allowing you to write arbitrarily nested lists as outlines.
+Assemble a first draft from your [Zettelkasten](https://zettelkasten.de) notes and an outline file. **Markdown** aware, allowing you to write arbitrarily nested lists as outlines.
 
 
 ## Installation
@@ -24,10 +24,10 @@ From the command line, run `zettel_outline` with the required parameters as the 
     Also available:
         -h, --help     prints this help
         -v, --verbose  verbose output
-        --version 
+        --version
 
 For example:
-    
+
     $ zettel_outline -f outline.txt -a /path/to/notes/ -o draft.txt
 
 This will read the `outline.txt` from the current directory. It will resolve every Zettel reference using the Zettel note archive (`/path/to/notes/`) and concatenate the notes's contents into `draft.txt`.
@@ -49,10 +49,10 @@ Zettel note contents will be separated using Markdown-enabled HTML comments, whi
 
     <!-- §201407030825 Why baking is so important for life -->
     <!-- I really love baking -->
-    
-    Baking is one of the oldest and definitely one of the 
-    most delicious ways to prepare food. 
-    
+
+    Baking is one of the oldest and definitely one of the
+    most delicious ways to prepare food.
+
     ...
 
 
@@ -76,10 +76,9 @@ end
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at <https://github.com/DivineDominion/zettel-outline-rendering>. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are always welcome! [Discuss on the forums.](https://forum.zettelkasten.de)
 
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
+The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
